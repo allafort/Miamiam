@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="---">
+    <meta name="author" content="Alice Allafort">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <title>Miamiam</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+   
+  <body>    
+    <!-- navigation -->
+
+    <!-- form -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+            
+            <h1>Miamiam</h1>
+            <img src="static/img/miamiam_logo.png" alt="Miamiam logo" class="center">
+            <hr>
+            
+            <br>
+            <form id='ingredients_kw' method='post' action='index' >
+            <input type='text' name='ingredients_kw' placeholder="Ingredients I have"/>            
+             <input type='submit' value='Submit' /> 
+            </form>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+
+    <div class="container">
+      <h2>Results for {{ingredients_kw}} </h2>
+
+      <table class="table table-bordered">
+          <tr>
+            <td>
+              <h4>{{title0}}</h4><br>
+              Ingredients list <br>
+                ...
+            </td>
+            <td>
+              <h4>{{title1}}</h4><br>
+              Ingredients list
+            </td>
+            <td>
+              <h4>{{title2}}</h4><br>
+              Ingredients list
+            </td>
+      </table>
+    </div>
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+</html>

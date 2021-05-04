@@ -20,9 +20,19 @@ def index():
         return render_template('index.html')
     else:
         app.vars['ingredients_kw'] = request.form['ingredients_kw']
-        results = get_recipes(app.vars['ingredients_kw'])
+        results={}
         results['ingredients_kw'] = app.vars['ingredients_kw']
+
+        results['recipe_list'] = get_recipes(df, kw=app.vars['ingredients_kw'])
         return render_template('results.html', **results)
+
+
+@app.route('/recipe_<recipe_id>')
+def recipe(recipe_id):
+    results = {}
+    results['recipe_data'] = get_recipes(df, rec_id=recipe_id)[0]
+
+    return render_template('recipe.html', **results)
 
 
 @app.route('/home')
@@ -55,23 +65,21 @@ def match_string(keywords, title, how='any'):
 def load_recipes():
     """Loads recipe dataframe"""
     return pd.read_json(save_dir + 'epicurious_ing_cleaned.json')
+df = load_recipes()
 
-
-def get_recipes(ingredients_kw, n=3):
+def get_recipes(df,rec_id=None, kw=None, n=3):
     """
     Query on recipe dataframe from keyword ingredients, matching all of them
     :param ingredients_kw: List of ingredients
     :param n: Number of recipes returned
     :return: dictionary of the first N results
     """
-    df = load_recipes()
-    ingredients_kw = [kw.strip() for kw in ingredients_kw.split(' ')]
-    mask = df.ing_cleaned_all.apply(lambda t: match_string(ingredients_kw, t, 'all'))
-    # return df[mask][['title', 'ing_cleaned']].to_dict('records')[:n]
-    results = {'title0': '', 'title1': '', 'title2': ''}
-    for i in range(min(n,len(df[mask].index))):
-        results[list(results.keys())[i]] = df[mask]['title'].iloc[i]
-    return results
+    if kw is not None:
+        kw = [k.strip() for k in kw.split(' ')]
+        mask = df.ing_cleaned_all.apply(lambda t: match_string(kw, t, 'all'))
+    if rec_id is not None:
+        mask = df.recipe_id == int(rec_id)
+    return df[mask][['recipe_id', 'title', 'ing_cleaned', 'ingredients', 'directions']].to_dict('records')[:n]
 
 
 if __name__ == "__main__":

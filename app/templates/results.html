@@ -22,8 +22,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-            
-            <h1>Miamiam</h1>
+
             <img src="static/img/miamiam_logo.png" alt="Miamiam logo" class="center">
             <hr>
             
@@ -43,23 +42,27 @@
 
       <table class="table table-bordered">
           <tr>
-            <td>
-              <h4>{{title0}}</h4><br>
-              Ingredients list <br>
-                ...
+            {% for recipe in recipe_list: %}
+
+            <td class="text-center">
+              <h4>{{recipe['title']}}</h4><br>
+
+                <div style='float: left; text-align: left'>
+                    Ingredients list: <br>
+                    {% for ing in recipe['ingredients']: %}
+                        {{ing}} <br>
+                    {% endfor %}
+                </div>
+                <br>
+                <div style="vertical-align:bottom;" >
+                    <a href="/recipe_{{recipe['recipe_id']}}"> Let's cook </a>
+                </div>
             </td>
-            <td>
-              <h4>{{title1}}</h4><br>
-              Ingredients list
-            </td>
-            <td>
-              <h4>{{title2}}</h4><br>
-              Ingredients list
-            </td>
+              {% endfor %}
+
+          </tr>
       </table>
     </div>
-
-
 
 
     <!-- Bootstrap core JavaScript

@@ -13,34 +13,41 @@
     
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="icon" href="static/img/miamiam_logo.png">
   </head>
    
   <body>    
-    <!-- navigation -->
 
-    <!-- form -->
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-            <!--
-            <h1>Welcome to Miamiam</h1>
-            -->
-            <img src="static/img/miamiam_logo.png" alt="Miamiam logo" class="center">
-            <hr>
-            <h3> What ingredients would you like to use today? </h3> <!-- (comma separated if multiple) </h4>  -->
-            <br>
-            <form id='ingredients_kw' method='post' action='index' > <!-- action is the URL you want to move to next-->
-            <p>
-            <input type='text' name='ingredients_kw' placeholder="Ingredients I have"/>            
-             <input type='submit' value='Submit' /> <!-- value is the text that will appear on the button. -->
+    <div class="col-lg-12 text-center">
+      <img src="static/img/miamiam_logo.png" alt="Miamiam logo" class="center">
+      <hr>
+      <h3> {{recipe_data['title']}} </h3>
 
-            </form>
- 
-          
-        </div>
-      </div>
     </div>
+    <br>
+    <p style="text-align:center;">
+<!--      <img src={{recipe_data['img_url']}} alt="Recipe pic" class="center">-->
+      <img src="https://assets.epicurious.com/photos/57191b1213c4b7d74c9d45e6/6:4/w_620%2Ch_413/Quick-Poached-Salmon-(c)-Maja-Smend.jpg" alt="Recipe pic" class="center">
+    </p>
+    <br>
+    <br>
+    <table class="table table-bordered">
+      <tr>
+        <td class="text-left">
+          Ingredients: <br>
+          {% for ing in recipe_data['ingredients']: %}
+             - {{ing}} <br>
+          {% endfor %}
+        </td>
+        <td class="text-left">
+
+          Directions: <br>
+          {% for ing in recipe_data['directions']: %}
+             - {{ing}} <br>
+          {% endfor %}
+        </td>
+
+      </tr>
+    </table>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

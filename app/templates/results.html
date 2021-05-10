@@ -39,13 +39,36 @@
 
     <div class="container">
       <h2>Results for {{ingredients_kw}} </h2>
+          <h4> ({{number_of_recipes}} recipes with preferences for {{cuisines_selected}} cuisines) </h4><br>
 
       <table class="table table-bordered">
           <tr>
-            {% for recipe in recipe_list: %}
+            {% for recipe in recipe_list[:3]: %}
 
             <td class="text-center">
               <h4>{{recipe['title']}}</h4><br>
+                <h6>{{recipe['cuisine']}}</h6><br>
+
+                <div style='float: left; text-align: left'>
+                    Ingredients list: <br>
+                    {% for ing in recipe['ingredients']: %}
+                        {{ing}} <br>
+                    {% endfor %}
+                </div>
+                <br>
+                <div style="vertical-align:bottom;" >
+                    <a href="/recipe_{{recipe['recipe_id']}}"> Let's cook </a>
+                </div>
+            </td>
+              {% endfor %}
+
+          </tr>
+          <tr>
+            {% for recipe in recipe_list[3:6]: %}
+
+            <td class="text-center">
+              <h4>{{recipe['title']}}</h4><br>
+                <h6>{{recipe['cuisine']}}</h6><br>
 
                 <div style='float: left; text-align: left'>
                     Ingredients list: <br>

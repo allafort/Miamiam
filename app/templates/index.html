@@ -30,13 +30,18 @@
             <hr>
             <h3> What ingredients would you like to use today? </h3> <!-- (comma separated if multiple) </h4>  -->
             <br>
-            <form id='ingredients_kw' method='post' action='index' > <!-- action is the URL you want to move to next-->
-            <p>
-            <input type='text' name='ingredients_kw' placeholder="Ingredients I have"/>            
-             <input type='submit' value='Submit' /> <!-- value is the text that will appear on the button. -->
 
+            <form id='ingredients_kw' method='post' action='index' > <!-- action is the URL you want to move to next-->
+            <input type='text' name='ingredients_kw' placeholder="Ingredients I have"/><br>
+            <br>
+            
+                {% for cuis in cuisine_list %}
+                <input type="checkbox" id={{cuis}} name={{cuis}} value={{cuis}}>
+                    <label for={{cuis}}> {{cuis}} </label><br>
+            {% endfor %}
+            <input type='submit' value='Submit' /> <!-- value is the text that will appear on the button. -->
             </form>
- 
+
           
         </div>
       </div>

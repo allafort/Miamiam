@@ -17,13 +17,25 @@ app.vars = {'ingredients_kw': ''}
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
-        return render_template('index.html')
+        form = {}
+        form['cuisine_list'] = cuisine_list
+        return render_template('index.html', **form)
     else:
         app.vars['ingredients_kw'] = request.form['ingredients_kw']
-        results={}
-        results['ingredients_kw'] = app.vars['ingredients_kw']
+        app.vars['cuisines_selected'] = []
+        for cui in cuisine_list:
+            print(cui)
+            if request.form.get(cui) != None:
+                print(cui, 'selected')
+                app.vars['cuisines_selected'].append(cui)
 
-        results['recipe_list'] = get_recipes(df, kw=app.vars['ingredients_kw'])
+        recipe_list = get_recipes(df, kw=app.vars['ingredients_kw'], cuis=app.vars['cuisines_selected'] )
+
+        results = {}
+        results['ingredients_kw'] = app.vars['ingredients_kw']
+        results['cuisines_selected'] = " ".join(app.vars['cuisines_selected'])
+        results['recipe_list'] = recipe_list[:6]
+        results['number_of_recipes'] = len(recipe_list)
         return render_template('results.html', **results)
 
 
@@ -38,7 +50,7 @@ def recipe(recipe_id):
 @app.route('/home')
 def home():
     full_filename = os.path.join(app.config['img_dir'], 'pexels-lukas-349609.jpg')
-    template_context = dict(background = full_filename)
+    template_context = dict(background=full_filename)
     return render_template('home.html', **template_context)
 
 
@@ -64,22 +76,56 @@ def match_string(keywords, title, how='any'):
 
 def load_recipes():
     """Loads recipe dataframe"""
-    return pd.read_json(save_dir + 'epicurious_ing_cleaned.json')
-df = load_recipes()
+    return pd.read_json(save_dir + 'epicurious_cuisine.json')
 
-def get_recipes(df,rec_id=None, kw=None, n=3):
+
+df = load_recipes()
+cuisine_list = df.cuisine.unique()
+
+
+def get_recipes(df, rec_id=None, kw=None, cuis=[]):
     """
     Query on recipe dataframe from keyword ingredients, matching all of them
-    :param ingredients_kw: List of ingredients
-    :param n: Number of recipes returned
-    :return: dictionary of the first N results
+    :param df:
+    :param rec_id: Recipe Id to retrieve a single recipe to be displayed on its page
+    :param kw: List of ingredients
+    :param cuis: List of cuisine selected
+    :return: dictionary
     """
+    mask = df.index
     if kw is not None:
         kw = [k.strip() for k in kw.split(' ')]
         mask = df.ing_cleaned_all.apply(lambda t: match_string(kw, t, 'all'))
     if rec_id is not None:
         mask = df.recipe_id == int(rec_id)
-    return df[mask][['recipe_id', 'title', 'ing_cleaned', 'ingredients', 'directions']].to_dict('records')[:n]
+    df_sel = df[mask]
+    if cuis:
+        df_sel = sort_cuis(df_sel, cuis)
+    return df_sel[['recipe_id', 'title', 'ing_cleaned', 'ingredients', 'directions', 'cuisine']].to_dict('records')
+
+
+def sort_cuis(df, cuis_list):
+    ind_list, ind_list_match = {}, {}
+    ind_sorted = []
+
+    for cui in cuis_list:
+        ind_list_match[cui] = list(df[df.cuisine == cui].sort_values(cui, ascending=False).index)
+        ind_list[cui] = list(df.sort_values(cui, ascending=False).index)
+
+    for i in range(max([len(l) for l in ind_list_match.values()])):
+        for cui in cuis_list:
+            try:
+                ind_sorted.append(ind_list_match[cui][i])
+            except:
+                pass
+
+    for i in range(len(df.index)):
+        for cui in cuis_list:
+            if ind_list[cui][i] not in ind_sorted:
+                ind_sorted.append(ind_list[cui][i])
+
+    df = df.loc[ind_sorted]
+    return df
 
 
 if __name__ == "__main__":

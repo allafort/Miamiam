@@ -1,56 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<meta charset="UTF-8">
+{% extends "base.html" %}
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="---">
-    <meta name="author" content="Alice Allafort">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-
-    <title>Miamiam</title>
-    
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="icon" href="static/img/miamiam_logo.png">
-  </head>
-   
-  <body>    
-    <!-- navigation -->
-
+{% block content %}
     <!-- form -->
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-            <!--
-            <h1>Welcome to Miamiam</h1>
-            -->
             <img src="static/img/miamiam_logo.png" alt="Miamiam logo" class="center">
-            <hr>
-            <h3> What ingredients would you like to use today? </h3> <!-- (comma separated if multiple) </h4>  -->
-            <br>
-
+            <h3> What ingredients would you like to use today? </h3><br>
             <form id='ingredients_kw' method='post' action='index' > <!-- action is the URL you want to move to next-->
             <input type='text' name='ingredients_kw' placeholder="Ingredients I have"/><br>
             <br>
-            
-                {% for cuis in cuisine_list %}
-                <input type="checkbox" id={{cuis}} name={{cuis}} value={{cuis}}>
-                    <label for={{cuis}}> {{cuis}} </label><br>
-            {% endfor %}
-            <input type='submit' value='Submit' /> <!-- value is the text that will appear on the button. -->
-            </form>
-
-          
         </div>
       </div>
+
+
+    <div class="row align-items-center">
+        <div class="col-3"> </div>
+            {% for i in range(3) %}
+                <div class="col-2 p-2">
+                {% for j in range(3*i,3*i+3) %}
+
+                    <input type="checkbox" id={{cuisine_list[j]}} name={{cuisine_list[j]}} value={{cuisine_list[j]}}>
+                    <label for={{cuisine_list[j]}}> {{cuisine_list_names[j]}} </label><br>
+                {% endfor %}
+                </div>
+            {% endfor %}
+        <div class="col-3"> </div>
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  </body>
-</html>
+
+
+
+
+    <div class="row">
+        <div class="col-lg-12 text-center pt-3 ">
+            <input type='submit' value='Submit' /> <!-- value is the text that will appear on the button. -->
+            </form>
+        </div>
+    </div>
+
+          
+    </div>
+
+{% endblock %}

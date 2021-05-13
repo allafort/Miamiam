@@ -1,97 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<meta charset="UTF-8">
+{% extends "base.html" %}
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="---">
-    <meta name="author" content="Alice Allafort">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-
-    <title>Miamiam</title>
-    
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  </head>
-   
-  <body>    
-    <!-- navigation -->
-
+{% block content %}
     <!-- form -->
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
 
             <img src="static/img/miamiam_logo.png" alt="Miamiam logo" class="center">
-            <hr>
-            
-            <br>
-            <form id='ingredients_kw' method='post' action='index' >
-            <input type='text' name='ingredients_kw' placeholder="Ingredients I have"/>            
-             <input type='submit' value='Submit' /> 
-            </form>
+<!--            <br>-->
+<!--            <form id='ingredients_kw' method='post' action='index' >-->
+<!--            <input type='text' name='ingredients_kw' placeholder="Ingredients I have"/>            -->
+<!--             <input type='submit' value='Submit' /> -->
+<!--            </form>-->
         </div>
       </div>
-    </div>
-    <br>
-    <br>
-
-    <div class="container">
-      <h2>Results for {{ingredients_kw}} </h2>
-          <h4> ({{number_of_recipes}} recipes with preferences for {{cuisines_selected}} cuisines) </h4><br>
-
-      <table class="table table-bordered">
-          <tr>
-            {% for recipe in recipe_list[:3]: %}
-
-            <td class="text-center">
-              <h4>{{recipe['title']}}</h4><br>
-                <h6>{{recipe['cuisine']}}</h6><br>
+      <div class="row">
+        <div class="col-lg-12">
+            <h2>Results for "{{ingredients_kw}}" </h2>
+             ({{number_of_recipes}} recipes with preferences for {{cuisines_selected}} cuisines)
+            <br>
+        </div>
+      </div>
+         <hr>
+        {% for i in range(2): %}
+        <div class="row mt-3">
+        {% for recipe in recipe_list[i*3:i*3+2]: %}
+            <div class="col-4" style="padding-right:20px; border-right: 1px solid #ccc; padding-left:30px; ">
+                <h4>{{recipe['title']}}</h4><br>
+<!--                <h6>{{recipe['cuisine']}}</h6><br>-->
 
                 <div style='float: left; text-align: left'>
-                    Ingredients list: <br>
+                    <p> <u> Ingredients list</u>:  <br>
                     {% for ing in recipe['ingredients']: %}
                         {{ing}} <br>
                     {% endfor %}
-                </div>
+                    </p>
+                 </div>
                 <br>
-                <div style="vertical-align:bottom;" >
+                <div style="vertical-align:bottom; text-align: center" >
                     <a href="/recipe_{{recipe['recipe_id']}}"> Let's cook </a>
                 </div>
-            </td>
-              {% endfor %}
 
-          </tr>
-          <tr>
-            {% for recipe in recipe_list[3:6]: %}
-
-            <td class="text-center">
-              <h4>{{recipe['title']}}</h4><br>
-                <h6>{{recipe['cuisine']}}</h6><br>
+            </div>
+        {% endfor %}
+        {% for recipe in [recipe_list[i*3+2]]: %}
+            <div class="col-4" style="padding-right:20px; padding-left:20px; ">
+                <h4>{{recipe['title']}}</h4><br>
+<!--                <h6>{{recipe['cuisine']}}</h6><br>-->
 
                 <div style='float: left; text-align: left'>
-                    Ingredients list: <br>
+                    <p> <u> Ingredients list</u>: <br>
                     {% for ing in recipe['ingredients']: %}
                         {{ing}} <br>
                     {% endfor %}
-                </div>
+                    </p>
+                 </div>
                 <br>
-                <div style="vertical-align:bottom;" >
+                <div style="vertical-align:bottom; text-align: center" >
                     <a href="/recipe_{{recipe['recipe_id']}}"> Let's cook </a>
                 </div>
-            </td>
-              {% endfor %}
+            </div>
+        {% endfor %}
+        </div>
+        <div class="col-lg-12"></div>
+        <hr>
+        {% endfor %}
 
-          </tr>
-      </table>
     </div>
+<div style="vertical-align:bottom " >
+             <div class="text-center" >
+                <p><a href="/index"> Next </a></p>
+             </div>
+        </div>
 
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  </body>
-</html>
+{% endblock %}

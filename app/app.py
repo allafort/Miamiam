@@ -3,8 +3,8 @@ import os
 import pandas as pd
 import re
 
-root_dir = '/Users/aliceallafort/Google_Drive/Github/'
-save_dir = root_dir + 'Miamiam/data_save/'
+#root_dir = '/Users/aliceallafort/Google_Drive/Github/'
+#save_dir = root_dir + 'Miamiam/data_save/'
 
 app = Flask(__name__)
 
@@ -58,7 +58,7 @@ def recipe(recipe_id):
 
 @app.route('/welcome')
 def home():
-    full_filename = os.path.join(app.config['img_dir'], 'welcome.jpg')
+    full_filename = os.path.join(app.config['img_dir'], 'welcome.png')
     template_context = dict(background=full_filename)
     return render_template('home.html', **template_context)
 
@@ -85,7 +85,8 @@ def match_string(keywords, title, how='any'):
 
 def load_recipes():
     """Loads recipe dataframe"""
-    return pd.read_json(save_dir + 'epicurious_cuisine.json')
+    #return pd.read_json(save_dir + 'epicurious_cuisine.json')
+    return pd.read_json('../data_save/epicurious_cuisine.json')
 
 
 df = load_recipes()

@@ -86,7 +86,7 @@ def match_string(keywords, title, how='any'):
 def load_recipes():
     """Loads recipe dataframe"""
     #return pd.read_json(save_dir + 'epicurious_cuisine.json')
-    return pd.read_json('../data_save/epicurious_cuisine.json')
+    return pd.read_json('data_save/epicurious_cuisine.json')
 
 
 df = load_recipes()

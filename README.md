@@ -1,2 +1,4 @@
 # Miamiam
-My recipe recommendation engine
+A recipe recommendation engine for cooking with what you already have
+
+

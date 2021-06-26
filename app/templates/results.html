@@ -21,50 +21,50 @@
             <br>
         </div>
       </div>
-         <hr>
-        <div class="row mt-3">
-        {% for recipe in recipe_list[0:2]: %}
-            <div class="col-4" style="padding-right:20px; border-right: 1px solid #ccc; padding-left:30px; ">
-                <h4>{{recipe['title']}}</h4><br>
-<!--                <h6>{{recipe['cuisine']}}</h6><br>-->
-
-                <div style='float: left; text-align: left'>
-                    <p> <u> Ingredients list</u>:  <br>
-                    {% for ing in recipe['ingredients']: %}
-                        {{ing}} <br>
-                    {% endfor %}
-                    </p>
-                 </div>
-                <br>
-                <div style="vertical-align:bottom; text-align: center" >
-                    <a href="/recipe_{{recipe['recipe_id']}}"> Let's cook </a>
-                </div>
-
-            </div>
-        {% endfor %}
-
-        {% for recipe in [recipe_list[2]]: %}
-            <div class="col-4" style="padding-right:20px; padding-left:20px; ">
-                <h4>{{recipe['title']}}</h4><br>
-<!--                <h6>{{recipe['cuisine']}}</h6><br>-->
-
-                <div style='float: left; text-align: left'>
-                    <p> <u> Ingredients list</u>: <br>
-                    {% for ing in recipe['ingredients']: %}
-                        {{ing}} <br>
-                    {% endfor %}
-                    </p>
-                 </div>
-                <br>
-                <div style="vertical-align:bottom; text-align: center" >
-                    <a href="/recipe_{{recipe['recipe_id']}}"> Let's cook </a>
-                </div>
-            </div>
-        {% endfor %}
-
-        </div>
-        <div class="col-lg-12"></div>
         <hr>
+        {% for i in range(2): %}
+            <div class="row mt-3">
+            {% for recipe in recipe_list[i*3:i*3+2]: %}
+                <div class="col-4" style="padding-right:20px; border-right: 1px solid #ccc; padding-left:30px; ">
+                    <h4>{{recipe['title']}}</h4><br>
+    <!--                <h6>{{recipe['cuisine']}}</h6><br>-->
+
+                    <div style='float: left; text-align: left'>
+                        <p> <u> Ingredients list</u>:  <br>
+                        {% for ing in recipe['ingredients']: %}
+                            {{ing}} <br>
+                        {% endfor %}
+                        </p>
+                     </div>
+                    <br>
+                    <div style="vertical-align:bottom; text-align: center" >
+                        <a href="/recipe_{{recipe['recipe_id']}}"> Let's cook </a>
+                    </div>
+
+                </div>
+            {% endfor %}
+            {% for recipe in [recipe_list[i*3+2]]: %}
+                <div class="col-4" style="padding-right:20px; padding-left:20px; ">
+                    <h4>{{recipe['title']}}</h4><br>
+    <!--                <h6>{{recipe['cuisine']}}</h6><br>-->
+
+                    <div style='float: left; text-align: left'>
+                        <p> <u> Ingredients list</u>: <br>
+                        {% for ing in recipe['ingredients']: %}
+                            {{ing}} <br>
+                        {% endfor %}
+                        </p>
+                     </div>
+                    <br>
+                    <div style="vertical-align:bottom; text-align: center" >
+                        <a href="/recipe_{{recipe['recipe_id']}}"> Let's cook </a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+            <div class="col-lg-12"></div>
+            <hr>
+        {% endfor %}
 
     </div>
 <div style="vertical-align:bottom " >

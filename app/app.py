@@ -30,7 +30,6 @@ def index():
                 print(cui, 'selected')
                 app.vars['cuisines_selected'].append(cui)
 
-        df = load_recipes()
         recipe_list = get_recipes(df, kw=app.vars['ingredients_kw'], cuis=app.vars['cuisines_selected'])
 
         results = {}
@@ -44,7 +43,7 @@ def index():
 @app.route('/recipe_<recipe_id>')
 def recipe(recipe_id):
     results = {}
-    results['recipe_img']=None
+    results['recipe_img'] = None
     results['recipe_data'] = get_recipes(df, rec_id=recipe_id)[0]
     results['recipe_id'] = recipe_id
     if recipe_id == '19016':
@@ -132,4 +131,5 @@ def sort_cuis(df, cuis_list):
 
 
 if __name__ == "__main__":
+    df = load_recipes()
     app.run(debug=True)  # DEBUGGING

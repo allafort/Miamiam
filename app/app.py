@@ -13,7 +13,7 @@ cuisine_list_reduced = ['italian', 'moroccan', 'thai', 'french', 'southern_us', 
                         'japanese']
 cuisine_list_reduced_names = ['Italian', 'Moroccan', 'Thai', 'French', 'Southern', 'Indian', 'Greek', 'Mexican',
                               'Japanese']
-
+df = load_recipes()
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
@@ -132,5 +132,4 @@ def sort_cuis(df, cuis_list):
 
 
 if __name__ == "__main__":
-    df = load_recipes()
     app.run(debug=True)  # DEBUGGING

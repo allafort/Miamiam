@@ -3,16 +3,12 @@ import os
 import pandas as pd
 import re
 
-#root_dir = '/Users/aliceallafort/Google_Drive/Github/'
-#save_dir = root_dir + 'Miamiam/data_save/'
-
 app = Flask(__name__)
 
 img_dir = os.path.join('static', 'img')
 app.config['img_dir'] = img_dir
 
 app.vars = {'ingredients_kw': ''}
-
 cuisine_list_reduced = ['italian', 'moroccan', 'thai', 'french', 'southern_us', 'indian', 'greek', 'mexican',
                         'japanese']
 cuisine_list_reduced_names = ['Italian', 'Moroccan', 'Thai', 'French', 'Southern', 'Indian', 'Greek', 'Mexican',
@@ -26,34 +22,34 @@ def index():
         form['cuisine_list'] = cuisine_list_reduced
         form['cuisine_list_names'] = cuisine_list_reduced_names
         return render_template('index.html', **form)
-     else:
-         app.vars['ingredients_kw'] = request.form['ingredients_kw']
-         app.vars['cuisines_selected'] = []
+    else:
+        app.vars['ingredients_kw'] = request.form['ingredients_kw']
+        app.vars['cuisines_selected'] = []
         for cui in cuisine_list_reduced:
-            print(cui)
             if request.form.get(cui) != None:
                 print(cui, 'selected')
                 app.vars['cuisines_selected'].append(cui)
 
-#         recipe_list = get_recipes(df, kw=app.vars['ingredients_kw'], cuis=app.vars['cuisines_selected'])
-#
-#         results = {}
-#         results['ingredients_kw'] = app.vars['ingredients_kw']
-#         results['cuisines_selected'] = " ".join(app.vars['cuisines_selected'])
-#         results['recipe_list'] = recipe_list[:6]
-#         results['number_of_recipes'] = len(recipe_list)
-#         return render_template('results.html', **results)
-#
-#
-# @app.route('/recipe_<recipe_id>')
-# def recipe(recipe_id):
-#     results = {}
-#     results['recipe_img']=None
-#     results['recipe_data'] = get_recipes(df, rec_id=recipe_id)[0]
-#     results['recipe_id'] = recipe_id
-#     if recipe_id == '19016':
-#         results['recipe_img'] = 'https://assets.epicurious.com/photos/55d74922edfa3b005396a03a/6:4/w_620%2Ch_413/238699_salmon-chowder_6x4.jpg'
-#     return render_template('recipe.html', **results)
+        df = load_recipes()
+        recipe_list = get_recipes(df, kw=app.vars['ingredients_kw'], cuis=app.vars['cuisines_selected'])
+
+        results = {}
+        results['ingredients_kw'] = app.vars['ingredients_kw']
+        results['cuisines_selected'] = " ".join(app.vars['cuisines_selected'])
+        results['recipe_list'] = recipe_list[:6]
+        results['number_of_recipes'] = len(recipe_list)
+        return render_template('results.html', **results)
+
+
+@app.route('/recipe_<recipe_id>')
+def recipe(recipe_id):
+    results = {}
+    results['recipe_img']=None
+    results['recipe_data'] = get_recipes(df, rec_id=recipe_id)[0]
+    results['recipe_id'] = recipe_id
+    if recipe_id == '19016':
+        results['recipe_img'] = 'https://assets.epicurious.com/photos/55d74922edfa3b005396a03a/6:4/w_620%2Ch_413/238699_salmon-chowder_6x4.jpg'
+    return render_template('recipe.html', **results)
 
 
 @app.route('/welcome')
@@ -84,15 +80,9 @@ def match_string(keywords, title, how='any'):
 
 
 def load_recipes():
-    """Loads recipe dataframe"""
-    recipe_json_file = 'epicurious_cuisine.json'
-    print('Loading %s'%recipe_json_file)
-    return pd.read_json(recipe_json_file)
+    recipe_jsonfile = 'epicurious_cuisine.json'
+    return pd.read_json(recipe_jsonfile)
 
-
-# df = load_recipes()
-# cuisine_list = df.cuisine.unique()
-#
 
 def get_recipes(df, rec_id=None, kw=None, cuis=[]):
     """
@@ -142,4 +132,4 @@ def sort_cuis(df, cuis_list):
 
 
 if __name__ == "__main__":
-    app.run()  # DEBUGGING
+    app.run(debug=True)  # DEBUGGING

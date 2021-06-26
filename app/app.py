@@ -13,7 +13,7 @@ cuisine_list_reduced = ['italian', 'moroccan', 'thai', 'french', 'southern_us', 
                         'japanese']
 cuisine_list_reduced_names = ['Italian', 'Moroccan', 'Thai', 'French', 'Southern', 'Indian', 'Greek', 'Mexican',
                               'Japanese']
-df = load_recipes()
+
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
@@ -83,6 +83,7 @@ def load_recipes():
     print('Loading recipe database %s'%recipe_jsonfile)
     return pd.read_json(recipe_jsonfile)
 
+df = load_recipes()
 
 def get_recipes(df, rec_id=None, kw=None, cuis=[]):
     """

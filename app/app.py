@@ -18,23 +18,23 @@ cuisine_list_reduced = ['italian', 'moroccan', 'thai', 'french', 'southern_us', 
 cuisine_list_reduced_names = ['Italian', 'Moroccan', 'Thai', 'French', 'Southern', 'Indian', 'Greek', 'Mexican',
                               'Japanese']
 
-#
-# @app.route('/index', methods=['GET', 'POST'])
-# def index():
-#     if request.method == 'GET':
-#         form = {}
-#         form['cuisine_list'] = cuisine_list_reduced
-#         form['cuisine_list_names'] = cuisine_list_reduced_names
-#         return render_template('index.html', **form)
-#     else:
-#         app.vars['ingredients_kw'] = request.form['ingredients_kw']
-#         app.vars['cuisines_selected'] = []
-#         for cui in cuisine_list_reduced:
-#             print(cui)
-#             if request.form.get(cui) != None:
-#                 print(cui, 'selected')
-#                 app.vars['cuisines_selected'].append(cui)
-#
+
+@app.route('/index', methods=['GET', 'POST'])
+def index():
+    if request.method == 'GET':
+        form = {}
+        form['cuisine_list'] = cuisine_list_reduced
+        form['cuisine_list_names'] = cuisine_list_reduced_names
+        return render_template('index.html', **form)
+     else:
+         app.vars['ingredients_kw'] = request.form['ingredients_kw']
+         app.vars['cuisines_selected'] = []
+        for cui in cuisine_list_reduced:
+            print(cui)
+            if request.form.get(cui) != None:
+                print(cui, 'selected')
+                app.vars['cuisines_selected'].append(cui)
+
 #         recipe_list = get_recipes(df, kw=app.vars['ingredients_kw'], cuis=app.vars['cuisines_selected'])
 #
 #         results = {}
@@ -85,8 +85,9 @@ def match_string(keywords, title, how='any'):
 
 def load_recipes():
     """Loads recipe dataframe"""
-    #return pd.read_json(save_dir + 'epicurious_cuisine.json')
-    return pd.read_json('epicurious_cuisine.json')
+    recipe_json_file = 'epicurious_cuisine.json'
+    print('Loading %s'%recipe_json_file)
+    return pd.read_json(recipe_json_file)
 
 
 # df = load_recipes()

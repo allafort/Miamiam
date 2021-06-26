@@ -80,7 +80,7 @@ def match_string(keywords, title, how='any'):
 
 
 def load_recipes():
-    recipe_jsonfile = 'epicurious_cuisine.json'
+    recipe_jsonfile = 'app/epicurious_cuisine.json'
     return pd.read_json(recipe_jsonfile)
 
 

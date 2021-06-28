@@ -14,6 +14,9 @@ cuisine_list_reduced = ['italian', 'moroccan', 'thai', 'french', 'southern_us', 
 cuisine_list_reduced_names = ['Italian', 'Moroccan', 'Thai', 'French', 'Southern', 'Indian', 'Greek', 'Mexican',
                               'Japanese']
 
+@app.route('/')
+def root():
+    return redirect('/index')
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
